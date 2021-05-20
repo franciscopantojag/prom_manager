@@ -1,0 +1,45 @@
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1100px,
+  xxl: 1140px,
+);
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+nav {
+  width: 100%;
+}
+a {
+  text-decoration: none !important;
+}
+li {
+  list-style: none !important;
+}
+
+img {
+  max-width: 100% !important;
+}
+#output {
+  height: auto;
+  max-height: 300px;
+  width: auto;
+  max-width: 100%;
+}
+.personSvg {
+  width: 30px;
+}
+.logoutButton {
+  border-radius: 0 !important;
+  box-shadow: none;
+}
+.logoutButton:focus {
+  box-shadow: none !important;
+}
+.userDropdownMenu {
+  right: unset !important;
+  left: 0 !important;
+  @include media-breakpoint-up(lg) {
+    right: 0 !important;
+    left: unset !important;
+  }
+}

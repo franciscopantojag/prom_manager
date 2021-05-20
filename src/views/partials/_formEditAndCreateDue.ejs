@@ -1,0 +1,68 @@
+<form id='formEditAndCreateDue' action="<%- locals.due?`/due/${due._id.toString()}?_method=PUT`:'/due' %>" method="POST">
+    <div class="form-group mb-3">
+        <label for="dueName" class="form-label">Nombre</label>
+        <input 
+            type="text" 
+            name="dueName" 
+            class="form-control" 
+            id="dueName"
+            value="<%- locals.due?due.name:'' %>"
+            required
+        />
+    </div>
+    <div class="form-group mb-3">
+        <label for="dueTotal" class="form-label">Monto</label>
+        <input 
+            type="number" 
+            name="dueTotal" 
+            class="form-control"
+            id="dueTotal"
+            value="<%- locals.due?due.total:'100' %>"
+            required
+        />
+        <div id="validationClientDueTotal" class="invalid-feedback">
+            Por favor ingrese un monto valido
+        </div>
+    </div>
+    <div class="form-group mb-3">
+        <label for="dueFechaLimite" class="form-label">Fecha Limite</label>
+        <input 
+            type="date" 
+            name="dueFechaLimite" 
+            class="form-control" 
+            id="dueFechaLimite"
+            value="<%- locals.due?due.customDateObject?due.customDateObject.str:'':''%>"
+            required
+        />
+    </div>
+    <div class="form-group mb-3 form-check">
+        <input 
+            name="dueAll" 
+            type="checkbox" 
+            class="form-check-input" 
+            id="dueAll"
+            <% if (locals.due) { %>
+                <%- due.all===true?'checked':'' %>
+            <% } else {%>
+                <%- 'checked' %> 
+            <% } %>
+             
+        >
+        <label class="form-check-label" for="dueAll">For All Users</label>
+    </div>
+    <div class="modal-footer pb-0 pe-0">
+        <button type="submit"  class="btn btn-primary">
+            Save changes
+        </button>
+        <% if (!locals.due) { %>
+        <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+        >
+            Close
+        </button>
+        <% } %>
+        
+    </div>
+</form>

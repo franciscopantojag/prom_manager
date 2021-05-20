@@ -1,0 +1,35 @@
+<form
+  class="card container-sm mt-4 p-0"
+  style="max-width: 400px"
+  action="/login"
+  method="POST"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="card-body px-4">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input 
+        required
+        type="email" 
+        name="email" 
+        class="<%-locals.login_errors?login_errors.email?"form-control is-invalid":"form-control":"form-control"%>" 
+        id="email">
+      <div input-id="email" class="invalid-feedback">
+        <%- locals.login_errors?login_errors.email?login_errors.email:"":"" %>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input 
+        required
+        type="password" 
+        name="password" 
+        class="<%- locals.login_errors?login_errors.password?"form-control is-invalid":"form-control":"form-control"%>" 
+        id="password">
+      <div input-id="email" class="invalid-feedback">
+        <%- locals.login_errors?login_errors.password?login_errors.password:"":"" %>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+  </div>
+</form>

@@ -1,0 +1,3 @@
+*.ejs linguist-language=EJS
+public/css/dist/* -linguist-detectable
+public/js/dist/* -linguist-detectable

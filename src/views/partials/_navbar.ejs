@@ -1,0 +1,61 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-2">
+        <div class="container-md container-fluid">
+            <a class="navbar-brand" href="/">Prom Manager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="/">Home</a>
+                </li>
+                <% if (!locals.user) { %>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/register">Register</a>
+                    </li>
+              <% } else { %>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/blog">Blog</a>
+                    </li>
+                  <% if (user.admin) { %>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/admin">Admin</a>
+                        </li>
+                  <% } %>
+                 
+             <%  }%>
+                
+                
+              </ul>
+              <div class="d-flex">
+                <li class="nav-item dropdown">
+                    <% if (locals.user) { %>
+                        <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown" type="button" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img class="personSvg" src="/svg/person.svg">
+                          </a>
+                          <ul class="dropdown-menu userDropdownMenu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">My Profile</a></li>
+                            <!-- <li><a class="dropdown-item" href="#">Another action</a></li> -->
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="/logout" method="POST">
+                                        <button class="btn dropdown-item logoutButton">
+                                            Logout
+                                        </button>
+                                </form>
+                            </li>
+                          </ul>
+                    <% } %>
+                    
+                </li>
+                
+              </div>
+            </div>
+          </div>
+
+    
+  </nav>

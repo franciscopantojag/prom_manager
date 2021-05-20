@@ -1,0 +1,101 @@
+<% if (Array.isArray(locals.createDueErrors)) { %>
+  <% if (createDueErrors.length>0) { %>
+    <%- include('./partials/_alertErrors', {errorsToAlert: createDueErrors})%>
+  <% } %>
+<% } %>
+<div class="container my-4">
+  <div class="accordion" id="accordionAdmin">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseOne"
+          aria-expanded="true"
+          aria-controls="collapseOne"
+        >
+          User Dues
+        </button>
+      </h2>
+      <div
+        id="collapseOne"
+        class="accordion-collapse collapse show"
+        aria-labelledby="headingOne"
+        data-bs-parent="#accordionAdmin"
+      >
+        <div class="accordion-body">
+          <div class="accordion" id="accordionUserDues">
+            <% if (Array.isArray(locals.users)) { %> 
+              <% users.forEach((user,index)=>{ %> 
+                <%- include('./partials/_userDueAccordionItem', {user,index}); %> 
+              <% }) %> 
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseTwo"
+          aria-expanded="false"
+          aria-controls="collapseTwo"
+        >
+          Cuotas  
+        </button>
+      </h2>
+      <div
+        id="collapseTwo"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingTwo"
+        data-bs-parent="#accordionAdmin"
+      >
+        <div class="accordion-body">
+          <div>
+            <button 
+              class="btn btn-dark ms-auto d-block"
+              data-bs-toggle="modal"
+              data-bs-target="#modalCreateDue"
+            >
+              Create Due
+            </button>
+          </div>
+          <%- include('./partials/_modalCreateDue')%>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (Array.isArray(locals.dues)) { %>
+                <% dues.forEach((due, index) => { %>
+                  <tr>
+                    <th scope="row"><%- index %></th>
+                    <td><%- due.name %></td>
+                    <td><%- due.fechaLimite.toDateString() %></td>
+                    <td><%- due.total %></td>
+                    <td>
+                      <a type="button" href="/due/<%- due._id.toString() %> " class="me-3 btn btn-warning"
+                        >Editar</a
+                      >
+                      <a type="button" href="#" class="btn btn-danger">Eliminar</a>
+                    </td>
+                  </tr>
+                <% }) %> 
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

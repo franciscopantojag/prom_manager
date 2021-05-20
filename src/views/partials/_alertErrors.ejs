@@ -1,0 +1,17 @@
+<% if (Array.isArray(locals.errorsToAlert)) { %>
+    <% if (errorsToAlert.length>0) { %>
+      <div 
+        class="alert alert-danger alert-dismissible fade show container fixed-top" 
+        role="alert"
+        
+      >
+        <h3 class="ps-4 text-center">Error al ejecutar la accion</h3>
+        <ul class="mb-0">
+          <% errorsToAlert.forEach(errorToAlert => { %>
+           <li>Problem field: <%- errorToAlert.key %>. Message: <%- errorToAlert.msg %> </li>
+          <% }) %>
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+<% } %>

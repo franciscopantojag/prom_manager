@@ -1,0 +1,63 @@
+<table class="table mt-3<%- locals.view?view==='admin'?'':' table-bordered':' table-bordered' %>">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Fecha Limite</th>
+        <th scope="col">Files</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Estado</th>
+        <% if (locals.view) { %>
+            <% if (view === 'admin') { %>
+                <th scope="col">Accion</th>
+            <% } %>
+        <% } %> 
+      </tr>
+    </thead>
+    <tbody>
+      <% if (locals.userDues) { %> 
+        <% if (Array.isArray(userDues)) { %>
+          <% userDues.forEach((userDue, index)=>{ %>
+            <% if (userDue) { %>
+              <% if (userDue.due) { %>
+                <tr>
+                  <th scope="row"><%- index %></th>
+                  <td><%- userDue.due.name %></td>
+                  <td><%- userDue.due.fechaLimite.toDateString() %></td>
+                  <td>
+                    <% if (userDue.files.length > 0) { %>
+                      <ul class="p-0 m-0">
+                        <% userDue.files.forEach((file, index)=>{ %>
+                          <li class="py-1 text-primary"><a href="files/<%- file['filename'] %>"> File N° <%- index %> </a></li>
+                        <% }) %>
+                      </ul>
+                    <% } else {%>
+                      <p>No files</p>
+                    <%  } %>
+                  </td>
+                  <td><%- userDue.due.total %></td>
+                  <td class="<%- userDue.state==='En proceso'?'text-warning':userDue.state==='Pagado'?'text-success':'text-danger' %> "><%- userDue.state %></td>
+                  <% if (locals.view) { %>
+                    <% if (view === 'admin') { %>
+                        <td>
+                            <a type="button"  href="/userDue/<%- userDue._id %>" class="me-3 btn btn-warning">Editar</a>
+                            <form class="d-inline-block" action="/userDue/<%- userDue._id %>?_method=DELETE"  method="POST">
+                              <button type="submit" class="btn btn-danger">
+                                Eliminar
+                              </button>
+                            </form>
+                            
+                          </td>
+                    <% } %>
+                <% } %> 
+                  
+                </tr>
+              <% } %>
+             
+            <% } %>
+           
+          <% }) %>
+        <% } %>
+      <% } %>
+    </tbody>
+</table>

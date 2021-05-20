@@ -1,0 +1,51 @@
+<% if (locals.userDue) { %>
+  <form
+    <% if (locals.onlyFile === true) { %>
+      action="/userDue/<%- userDue._id %>/file?_method=PUT"
+      enctype="multipart/form-data"
+    <% } else {%>
+      action="/userDue/<%- userDue._id %>?_method=PUT"
+    <% } %>   
+    method="POST" 
+    class="card py-3 px-4"
+  >
+    <h4>Edit User Due</h3>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Due</label>
+      <input disabled value="<%- userDue.due.name  %>" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">User</label>
+      <input disabled
+        
+        value="<%- `${userDue.user.firstName} ${userDue.user.lastName} (${userDue.user.dni})` %>" 
+        type="text" class="form-control" id="exampleInputPassword1">
+    </div>
+    <% if (locals.onlyFile === true) { %>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Upload a file</label>
+        <input
+          name="file"
+          <% if (userDue.files.length >=3 || userDue.state==='Pagado') { %>
+            disabled
+          <% } %>
+          type="file"
+          accept="image/*"
+          class="form-control"
+          id="formControlFile1"
+          required
+        />
+      </div>
+    <% } else {%>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">State</label>
+        <select name="userDueState" required class="form-select">
+            <% possibleUserDueStates.forEach(userDueState=>{ %>
+                <option <%- userDueState===userDue.state?"selected":"" %> ><%- userDueState %></option>
+            <% })  %>  
+        </select>
+      </div>
+    <% } %> 
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+<% } %>
