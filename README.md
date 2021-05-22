@@ -15,6 +15,7 @@ $ npm install
 ```sh
 $ mongod
 ```
+- Put the mongo uri on an .env file like in the example
 
 ## Run
 
