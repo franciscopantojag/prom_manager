@@ -3,13 +3,12 @@ const multer = require('multer');
 const UserDue = require('../models/userDue');
 const { possibleUserDueStates } = require('../lib/constants');
 const { fileFilter } = require('../lib/fileFilterForUploadFileForUserDue');
+const User = require('../models/user');
+const Due = require('../models/dues');
 
 const { ObjectId } = mongoose.Types;
 exports.uploadFileForUserDue = async (req, res) => {
   const { userDueId } = req.params;
-  if (typeof userDueId !== 'string') {
-    return res.status(400).send('Invalid Request');
-  }
   if (!ObjectId.isValid(userDueId)) {
     return res.status(400).send('No es un id valido');
   }
@@ -147,7 +146,7 @@ exports.deleteUserDue = async (req, res, next) => {
     }
   }
 
-  return res.redirect(`/userDue/${userDueId}`);
+  return res.redirect('/admin');
 };
 exports.createUserDue = async (req, res) => {
   const { userId, dueId, userDueState } = req.body;
@@ -161,6 +160,14 @@ exports.createUserDue = async (req, res) => {
   }
   if (!possibleUserDueStates.includes(userDueState)) {
     return res.status(400).send('Bad request');
+  }
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+  const due = await Due.findById(dueId);
+  if (!due) {
+    return res.status(404).send('Due not found');
   }
   try {
     await UserDue.create({
@@ -179,15 +186,16 @@ exports.editUserDue = async (req, res, next) => {
     return res.status(400).send('No es un id valido');
   }
   const { userDueState } = req.body;
-  if (!(typeof userDueState === 'string')) {
+  if (!possibleUserDueStates.includes(userDueState)) {
     return res.status(400).send('Bad request');
   }
   try {
     await UserDue.findByIdAndUpdate(userDueId, { state: userDueState });
   } catch (err) {
     console.log(err);
+    return res.redirect('/admin');
   }
-  res.redirect(`/userDue/${userDueId}`);
+  return res.redirect('/admin');
 };
 exports.renderUserDueEditView = async (req, res, next) => {
   const { user } = req;
@@ -204,6 +212,9 @@ exports.renderUserDueEditView = async (req, res, next) => {
       .exec();
   } catch (err) {
     console.log(err);
+  }
+  if (!userDue) {
+    return res.redirect('/admin');
   }
   return res.render('userdue/[id]', { userDue, user, possibleUserDueStates });
 };

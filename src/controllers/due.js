@@ -63,6 +63,9 @@ exports.editDue = async (req, res) => {
   }
   dueFechaLimite = new Date(Date.parse(dueFechaLimite));
   dueTotal = Number(dueTotal);
+  if (dueTotal < 0) {
+    return res.status(400).send('dueTotal can not be lower than 0');
+  }
   dueName = dueName.trim();
   let possibleDuplicateDue;
   try {
